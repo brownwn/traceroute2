@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <netinet/in.h>
+#define BROARDMAC       {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF}
 #define EH_TYPE			0x0806							//ARP类型
 #define ARP_HRD			0x0001							//硬件类型：以太网接口类型为1
 #define ARP_PRO			0x0800							//协议类型：IP协议类型为0X0800
@@ -14,6 +16,8 @@
 #define ARP_PLN			0x04							//协议地址长度：IP地址长度为4B
 #define ARP_REQUEST		0x0001							//操作：ARP请求为1
 #define ARP_REPLY		0x0002							//操作：ARP应答为2
+
+#define ETH_HRD_DEFAULT {BROARDMAC, {0,0,0,0,0,0}, htons(EH_TYPE)}
 
 #define IPTOSBUFFERS 12
 
@@ -98,12 +102,17 @@ namespace traceroute{
 
     const unsigned char ICMP_ECHO_REQUEST = 8;
     const unsigned char ICMP_ECHO_REPLY = 0;
+    const unsigned char ICMP_ECHO_CODE = 0;
     const unsigned char ICMP_TIMEOUT = 11;
 
     const int DEF_ICMP_DATA_SIZE = 32;
     const int MAX_ICMP_PACKET_SIZE = 1024;
     const unsigned int DEF_ICMP_TIMEOUT = 3000;
     const int DEF_MAX_HOP = 30;
+
+    //01000101
+    #define IP_HRD_DEFAULT  {0x45,0x00,0x0000,0x0000,0x0000,0x00,0x02,0x0000,{0,0,0,0},{0,0,0,0}}
+    #define ICMP_HRD_DEFAULT {ICMP_ECHO_REQUEST,ICMP_ECHO_CODE,0x00,0x00,0x00}
 }
 
 char* iptos(u_long in);

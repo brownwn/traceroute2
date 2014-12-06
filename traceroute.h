@@ -4,15 +4,7 @@
 #include <thread>
 #include <mutex>
 #include <functional>
-namespace traceroute {
-    class Traceroute
-    {
-    public:
-        Traceroute();
-        ~Traceroute();
-        void sendICMPs();
-    };
-}
+void sendICMPs(unsigned long destIP, ipmon::nic_device nd);
 
 
 #endif // TRACEROUTE_H
