@@ -77,11 +77,15 @@ namespace ipmon{
     }protocol_s;
 }
 
-namespace traceroute{
+//namespace traceroute{
     typedef struct ipheader{
-         unsigned char version :4;         //4 bits header
-         unsigned char hdr_len :4;        //4 bits header's length
+         //unsigned char version :4;         //4 bits header
+         unsigned char ver_a_len;
+
+         //unsigned char hdr_len :4;        //4 bits header's length
+
          unsigned char tos;                    //8 bits service type
+
          unsigned short total_len;         //16 bits total lenght
          unsigned short identifier;        //16 bits
          unsigned short frag_and_flags; // 3 bits flags and 13 bits offset
@@ -90,6 +94,7 @@ namespace traceroute{
          unsigned short checksum;     //16 bits checksum
          unsigned long sourceIP;         //32 bits source IP
          unsigned long destIP;             //32 bits dest IP
+
      }IP_HEADER;
 
     typedef struct icmpheader{
@@ -100,6 +105,11 @@ namespace traceroute{
         unsigned short seq;                 //16 bits serial num
     }ICMP_HEADER;
 
+    typedef struct icmppack{
+        struct ethernet_head eth;
+        struct ipheader ih;
+        struct icmpheader ich;
+    }ICMPPACK;
     const unsigned char ICMP_ECHO_REQUEST = 8;
     const unsigned char ICMP_ECHO_REPLY = 0;
     const unsigned char ICMP_ECHO_CODE = 0;
@@ -111,9 +121,9 @@ namespace traceroute{
     const int DEF_MAX_HOP = 30;
 
     //01000101
-    #define IP_HRD_DEFAULT  {0x45,0x00,0x0000,0x0000,0x0000,0x00,0x02,0x0000,{0,0,0,0},{0,0,0,0}}
-    #define ICMP_HRD_DEFAULT {ICMP_ECHO_REQUEST,ICMP_ECHO_CODE,0x00,0x00,0x00}
-}
+#define IP_HRD_DEFAULT  {0x45, 0x00, 0x0000, 0x0000, 0x00, 0x02, 0x0000,0x00000000,0x00000000}
+#define ICMP_HRD_DEFAULT {ICMP_ECHO_REQUEST,ICMP_ECHO_CODE,0x00,0x00,0x00}
+//}
 
 char* iptos(u_long in);
 char* mactos(u_char* in);
